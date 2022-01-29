@@ -228,10 +228,10 @@ my_content* content_make(char* text) {
     return content;
 }
 
-void content_free(my_content* content) {
+my_content* content_free(my_content* content) {
     if (content == NULL) {
         printf("content is NULL!\n");
-        return;
+        return content;
     }
 
     printf("freeing content node ...\n");
@@ -239,6 +239,7 @@ void content_free(my_content* content) {
         free(content->text);
     }
     free(content);
+    return NULL;
 }
 
 void sll_free_node(my_sll* node) {
@@ -314,6 +315,20 @@ void sll_remove_all(my_sll* head) {
 }
 
 /**
+ * @brief Testing code starts here ...
+ * 
+ */
+
+my_sll* test_make_sll(my_content* content) {
+    // creat a list with 1 node
+    printf(">>> 1. making list <<<\n\n");
+    my_sll *head = sll_make(content);
+    printf("text= %s\n", head->content->text);
+    printf("size= %d\n", sll_count(head));
+    return head;
+}
+
+/**
  * @brief main program does these:
  * 1. make a singly linked-list
  * 2. append nodes
@@ -352,7 +367,7 @@ int main(int argc, char* argv[]) {
 
     // searching for 3
     printf("\n\n");
-    content_free(search_content);
+    search_content = content_free(search_content);
     search_content = content_make("*** 3.0 ***");
     found_sll = sll_search(head, search_content);
     if (found_sll != NULL) {
@@ -365,7 +380,7 @@ int main(int argc, char* argv[]) {
 
     // search for content 2, then insert at that node.  
     printf("\n\n");  
-    content_free(search_content);
+    search_content = content_free(search_content);
     search_content = content_make("*** 2.0 ***");
     my_sll* at = sll_search(head, search_content);
 
@@ -377,7 +392,7 @@ int main(int argc, char* argv[]) {
 
     // search for content 3, then insert at that node.    
     printf("\n\n");
-    content_free(search_content);
+    search_content = content_free(search_content);
     search_content = content_make("*** 3.0 ***");
     at = sll_search(head, search_content);
 
@@ -395,25 +410,25 @@ int main(int argc, char* argv[]) {
     sll_print(head);
 
     printf(">>> 5. removing nodes <<<\n\n");
-    content_free(search_content);
+    search_content = content_free(search_content);
     search_content = content_make("*** 0.5 ***");
     at = sll_search(head, search_content);
     head = sll_remove_node(head, at);
     sll_print(head);
 
-    content_free(search_content);
+    search_content = content_free(search_content);
     search_content = content_make("*** 2.5 ***");
     at = sll_search(head, search_content);
     head = sll_remove_node(head, at);
     sll_print(head);
 
-    content_free(search_content);
+    search_content = content_free(search_content);
     search_content = content_make("*** 1.5 ***");
     at = sll_search(head, search_content);
     head = sll_remove_node(head, at);
     sll_print(head);
 
     printf(">>> 6. freeing list <<<\n\n");
-    content_free(search_content);
+    search_content = content_free(search_content);
     sll_remove_all(head);
 }
